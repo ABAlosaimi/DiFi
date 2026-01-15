@@ -7,40 +7,46 @@ import (
 )
 
 
-func printNLines(lines []string, num int) []string {
-    var printNLines []string
-    for i := num; i < len(lines); i++ {
-        printNLines = append(printNLines, lines[i])
-    }
-    return printNLines
-}
-
-
 func main()  {
-	filepath := "/Users/abdulrahman/Documents/DiFi/cmd/hi.java"
+	// the below code was for getting hands dirty with the file I/O in go 
 
-	data, err := os.Open(filepath)
-	if err != nil {
-		fmt.Printf("Error reading file: %v\n", err)
-		return
-	}
-	defer data.Close()
+	// filepath := "/Users/abdulrahman/Documents/DiFi/cmd/hi.java"
 
-	var filteredFile []string
-	scanner := bufio.NewScanner(data)
+	// data, err := os.Open(filepath)
+	// if err != nil {
+	// 	fmt.Printf("Error reading file: %v\n", err)
+	// 	return
+	// }
+	// defer data.Close()
 
-	for scanner.Scan() {
-		filteredFile = append(filteredFile, scanner.Text())
-	}
+	// var filteredFile []string
+	// scanner := bufio.NewScanner(data)
 
-	if err := scanner.Err(); err != nil {
-        fmt.Println("Error reading file:", err)
-    }
+	// for scanner.Scan() {
+	// 	filteredFile = append(filteredFile, scanner.Text())
+	// }
 
-	file := printNLines(filteredFile, 5)
+	// if err := scanner.Err(); err != nil {
+    //     fmt.Println("Error reading file:", err)
+    // }
 
-	for i := 0; i < len(file); i++ {
-		fmt.Println(file[i])
-	}
+	// file := printNLines(filteredFile, 5)
 
+	// for i := 0; i < len(file); i++ {
+	// 	fmt.Println(file[i])
+	// }
+
+	// rdFile, err := os.Create("hi.txt") // it tested to create a file 
+
+	// for i := 0; i < len(file); i++{
+	// 	rdFile.Write([]byte(file[i] + "\n"))
+	// }
+
+	// if err != nil {
+	// 	fmt.Println("erro withe the created file: " + err.Error())
+	// }
+
+	// final, err := os.ReadFile(rdFile.Name())
+
+	// fmt.Println(string(final))
 }
