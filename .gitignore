@@ -1,5 +1,5 @@
 /.DS_Store
 
-/cmd/hi.java
+./cmd/hi.java
 
-/cmd/main/hi.txt
+./cmd/main/hi.txt
