@@ -1,3 +1,5 @@
 /.DS_Store
 
-DiFi/cmd/hi.java
+/cmd/hi.java
+
+/cmd/main/hi.txt

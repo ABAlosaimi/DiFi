@@ -4,36 +4,29 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
-func OpenFeatureFile(filePath string) os.File {
+func OpenFeatureFile(filePath string) (os.File, string, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		fmt.Println("opening file error: " + err.Error())
 	}
-	defer file.Close()
 
-	return *file
+	return *file, filepath.Base(file.Name()), nil
 }
 
-func removeNlines(featureFile []string, num int) *os.File {
-	 newFeatureFile, err := os.Create("x.java")
-	if err != nil {
-		fmt.Println("file creation error: " + err.Error())
+func removeNlines(featureFile []string, filteringStartLineNum int) ([]string, error) { 
+	var filteredFile []string
+
+	for i := filteringStartLineNum; i < len(featureFile); i++ {
+		filteredFile = append(filteredFile, featureFile[i])
 	}
 
-	for i := num; i < len(featureFile); i++ {
-		_, err := newFeatureFile.Write([]byte(featureFile[i]))
-		if err != nil {
-			fmt.Println("somthing went wrong with the filteration process: " + err.Error())
-			break
-		}
-	}
-
-	return newFeatureFile
+	return filteredFile, nil
 }
 
-func FilterFeatureFile(featureFile os.File, filteringStartNum int) *os.File {
+func FilterFeatureFile(featureFile os.File, filteringStartLineNum int) ([]string, error){
 	var featureFileArray []string
 	scanner := bufio.NewScanner(&featureFile)
 
@@ -42,16 +35,32 @@ func FilterFeatureFile(featureFile os.File, filteringStartNum int) *os.File {
 	}
 
 	if err := scanner.Err(); err != nil {
-        fmt.Println("Error reading file:", err)
+        fmt.Println("Error reading file: ", err)
+		return nil, err
     }
 
-	filteredFile := removeNlines(featureFileArray, filteringStartNum)
+	filteredFile, err:= removeNlines(featureFileArray, filteringStartLineNum)
+	if  err != nil {
+		fmt.Println("feature file filtring error: " + err.Error())
+	}
 
-	return filteredFile
+	return filteredFile, nil
 }
 
-func AddFeatureFile(featureFile os.File, projectDir string) bool {
-	
-	// adding the filtered file to the new prject diroctory 
-	return true
+func WriteFeatureFile(filteredFile []string, projectDir string, featureFileName string) (bool, error) {
+	targetPath := filepath.Join(projectDir, featureFileName)
+
+	newFeatureFile, err := os.Create(targetPath)
+	if err != nil {
+		fmt.Println("filtered file creation error: " + err.Error())
+	}
+	defer newFeatureFile.Close()
+
+	for i := 0; i < len(filteredFile); i++ {
+		if _, err := newFeatureFile.Write([]byte(filteredFile[i] + "\n")); err != nil {
+			fmt.Println("writing file to the new/other project error: " + err.Error())
+		}
+	}
+
+	return true, nil
 }
