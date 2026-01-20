@@ -3,14 +3,24 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+	"strconv"
 	"github.com/ABAlosaimi/DiFi/internal/combiner"
 )
 
 func main() {
-	
-	filePath := "/Users/abdulrahman/Documents/DiFi/cmd/main/hi.txt"
-	filteringStartLineNum := 0 
-	projectDir := "/Users/abdulrahman/Documents" 
+
+	if len(os.Args) < 4 {
+		log.Fatalf("Usage: %s <filePath> <filteringStartLineNum> <projectDir>", os.Args[0])
+	}
+
+	// Parse command-line arguments
+	filePath := os.Args[1]
+	projectDir := os.Args[3]
+	filteringStartLineNum, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		log.Fatalf("Invalid filteringStartLineNum: %v", err)
+	} 
 
 	file, fileName, err := combiner.OpenFeatureFile(filePath)
 	if err != nil {
