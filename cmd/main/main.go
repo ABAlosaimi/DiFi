@@ -14,7 +14,6 @@ func main() {
 		log.Fatalf("Usage: %s <filePath> <filteringStartLineNum> <projectDir>", os.Args[0])
 	}
 
-	// Parse command-line arguments
 	filePath := os.Args[1]
 	projectDir := os.Args[3]
 	filteringStartLineNum, err := strconv.Atoi(os.Args[2])
