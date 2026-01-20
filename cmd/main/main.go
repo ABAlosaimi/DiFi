@@ -1,52 +1,35 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
+	"log"
+	"github.com/ABAlosaimi/DiFi/internal/combiner"
 )
 
+func main() {
+	
+	filePath := "/Users/abdulrahman/Documents/DiFi/cmd/main/hi.txt"
+	filteringStartLineNum := 0 
+	projectDir := "/Users/abdulrahman/Documents" 
 
-func main()  {
-	// the below code was for getting hands dirty with the file I/O in go 
+	file, fileName, err := combiner.OpenFeatureFile(filePath)
+	if err != nil {
+		log.Fatalf("Failed to open file: %v", err)
+	}
+	fmt.Printf("Opened file: %s\n", fileName)
 
-	// filepath := "/Users/abdulrahman/Documents/DiFi/cmd/hi.java"
+	filteredFile, err := combiner.FilterFeatureFile(file, filteringStartLineNum)
+	if err != nil {
+		log.Fatalf("Failed to filter file: %v", err)
+	}
+	fmt.Printf("Filtered file, got %d lines\n", len(filteredFile))
 
-	// data, err := os.Open(filepath)
-	// if err != nil {
-	// 	fmt.Printf("Error reading file: %v\n", err)
-	// 	return
-	// }
-	// defer data.Close()
+	success, err := combiner.WriteFeatureFile(filteredFile, projectDir, fileName)
+	if err != nil {
+		log.Fatalf("Failed to write file: %v", err)
+	}
 
-	// var filteredFile []string
-	// scanner := bufio.NewScanner(data)
-
-	// for scanner.Scan() {
-	// 	filteredFile = append(filteredFile, scanner.Text())
-	// }
-
-	// if err := scanner.Err(); err != nil {
-    //     fmt.Println("Error reading file:", err)
-    // }
-
-	// file := printNLines(filteredFile, 5)
-
-	// for i := 0; i < len(file); i++ {
-	// 	fmt.Println(file[i])
-	// }
-
-	// rdFile, err := os.Create("hi.txt") // it tested to create a file 
-
-	// for i := 0; i < len(file); i++{
-	// 	rdFile.Write([]byte(file[i] + "\n"))
-	// }
-
-	// if err != nil {
-	// 	fmt.Println("erro withe the created file: " + err.Error())
-	// }
-
-	// final, err := os.ReadFile(rdFile.Name())
-
-	// fmt.Println(string(final))
+	if success {
+		fmt.Printf("Successfully wrote filtered file to %s\n", projectDir)
+	}
 }
