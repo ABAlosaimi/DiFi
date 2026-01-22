@@ -91,7 +91,7 @@ DiFi operates in three main steps:
 2. **Filter**: Scans the file line-by-line and skips the specified number of initial lines
 3. **Write**: Creates a new file in the target directory with the filtered content
 
-## Requirements
+## Requirements to run locally
 
 - Go 1.16 or higher
 
