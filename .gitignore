@@ -3,3 +3,5 @@
 ./cmd/hi.java
 
 ./cmd/main/hi.txt
+
+./cmd/main/main
