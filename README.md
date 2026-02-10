@@ -1,7 +1,7 @@
 # DiFi
 #### reuse your code without OOP stuff
 
-DiFi is a CLI (command line interface) tool that enable you to reuse your pervious written feature in a brwon/new project(s) by cleaning up project-related details (like package statments) and write the cleaned content to your project directory.
+DiFi is a CLI (command line interface) tool that enables you to reuse your previous written feature in a brown/new project(s) by cleaning up project-related details (like package statements) and write the cleaned content to your project directory.
 
 ## Features
 

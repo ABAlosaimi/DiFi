@@ -7,6 +7,28 @@ import (
 	"path/filepath"
 )
 
+func ProcessMultipleFeatureFiles(filePaths []string, filteringStartLineNum int, projectDir string) error {
+	for _, filePath := range filePaths {
+		file, fileName, err := OpenFeatureFile(filePath)
+		if err != nil {
+			return fmt.Errorf("failed to open %s: %w", filePath, err)
+		}
+
+		filteredFile, err := FilterFeatureFile(file, filteringStartLineNum)
+		file.Close() // Close immediately after reading
+		if err != nil {
+			return fmt.Errorf("failed to filter %s: %w", filePath, err)
+		}
+
+		if _, err := WriteFeatureFile(filteredFile, projectDir, fileName); err != nil {
+			return fmt.Errorf("failed to write %s: %w", fileName, err)
+		}
+
+		fmt.Printf("Successfully processed: %s\n", fileName)
+	}
+	return nil
+}
+
 func OpenFeatureFile(filePath string) (os.File, string, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
